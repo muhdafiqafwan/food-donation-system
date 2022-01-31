@@ -16,9 +16,16 @@ import "../Form.css";
 
 const DonorRegisterPage = () => {
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: "/donorLogin",
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -130,6 +137,22 @@ const DonorRegisterPage = () => {
           <div className="d-flex justify-content-end">
             <Button onClick={handleClose} variant="outline-danger">
               Try again
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  if (data)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Registration success</Alert.Heading>
+          <p>Please go to Login page to proceed</p>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
             </Button>
           </div>
         </Alert>
