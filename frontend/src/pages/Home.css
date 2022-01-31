@@ -1,0 +1,19 @@
+.home {
+  background-image: url(../images/how-does-rice-get-to-your-plate-1532072374.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.h1 {
+  color: white;
+  text-align: center;
+  padding: 5rem 0 5rem 0;
+}
+
+.h2 {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 5rem 0 5rem 0;
+}
