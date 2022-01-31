@@ -1,5 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React from "react";
 import { GET_ORGANIZATIONS } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -17,7 +16,12 @@ import { ClockFill, CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
 import ReactTooltip from "react-tooltip";
 
 const AdminNGOPage = () => {
-  const { user } = useContext(AuthContext);
+  function refreshPage() {
+    if (!window.location.hash) {
+      window.location = window.location + "#loaded";
+      window.location.reload();
+    }
+  }
   const { loading, error, data } = useQuery(GET_ORGANIZATIONS);
 
   const getColor = (verified) => {
@@ -62,7 +66,11 @@ const AdminNGOPage = () => {
   if (error) return `Error! ${error.message}`;
 
   return (
-    <Container fluid="true" className="vh-100 d-flex flex-column">
+    <Container
+      fluid="true"
+      className="vh-100 d-flex flex-column"
+      onLoad={refreshPage()}
+    >
       <Row className="h-100 w-100 d-flex">
         <Col sm={2} style={{ background: "#f3f3f3" }}>
           <Row>

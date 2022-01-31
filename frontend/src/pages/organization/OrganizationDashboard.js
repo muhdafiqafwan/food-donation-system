@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { GET_MEORGANIZATION } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";

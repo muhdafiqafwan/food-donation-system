@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/auth";
+import React from "react";
 import { GET_DONORS } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import {
@@ -13,7 +12,6 @@ import {
 } from "react-bootstrap";
 
 const AdminDonorPage = () => {
-  const { user } = useContext(AuthContext);
   const { loading, error, data } = useQuery(GET_DONORS);
 
   if (loading)

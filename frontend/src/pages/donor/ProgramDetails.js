@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/auth";
+import React from "react";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -20,7 +19,6 @@ import {
 } from "react-bootstrap-icons";
 
 const ProgramDetails = ({ match }) => {
-  const { donor } = useContext(AuthContext);
   const {
     params: { id },
   } = match;

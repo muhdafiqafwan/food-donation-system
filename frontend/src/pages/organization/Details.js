@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { DELETE_PROGRAM } from "../../GraphQL/Mutations";
 import { useQuery, useMutation } from "@apollo/client";
@@ -13,6 +12,7 @@ import {
   Badge,
   Modal,
   Spinner,
+  Alert,
 } from "react-bootstrap";
 import {
   BagCheckFill,
@@ -40,12 +40,19 @@ const Details = ({ match }) => {
   } = match;
 
   const [show, setShow] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(true);
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: "/organizationDashboard",
+    });
+  };
 
   const { loading, error, data } = useQuery(GET_ONE_PROGRAM, {
     variables: { programId: id },
   });
 
-  const [deleteProgram] = useMutation(DELETE_PROGRAM, {
+  const [deleteProgram, { data: dataDelete }] = useMutation(DELETE_PROGRAM, {
     variables: {
       programId: id,
     },
@@ -67,6 +74,20 @@ const Details = ({ match }) => {
       />
     );
   if (error) return `Error! ${error.message}`;
+  if (dataDelete)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Program deleted</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
 
   const getColor = (status) => {
     if (status === "Pending") return "#fab603";
@@ -107,7 +128,6 @@ const Details = ({ match }) => {
   const handleShow = () => setShow(true);
   const handleYes = () => {
     deleteProgram();
-    history.push(`/organizationDashboard`);
   };
 
   return (

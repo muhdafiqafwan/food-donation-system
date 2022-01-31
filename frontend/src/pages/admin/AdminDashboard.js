@@ -1,12 +1,10 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React from "react";
 import { GET_COUNT_USERS } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { Row, Col, Container, Card, Spinner, ListGroup } from "react-bootstrap";
 import { Building, PeopleFill } from "react-bootstrap-icons";
 
 const AdminDashboardPage = () => {
-  const { user } = useContext(AuthContext);
   if (!window.location.hash) {
     window.location = window.location + "#loaded";
     window.location.reload();
@@ -37,7 +35,7 @@ const AdminDashboardPage = () => {
                 <ListGroup.Item action href="adminNGO">
                   Organizations
                 </ListGroup.Item>
-                <ListGroup.Item action href="#link2">
+                <ListGroup.Item action href="adminDonor">
                   Donors
                 </ListGroup.Item>
               </ListGroup>

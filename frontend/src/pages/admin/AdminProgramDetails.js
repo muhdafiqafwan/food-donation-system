@@ -1,18 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
-import { DELETE_PROGRAM } from "../../GraphQL/Mutations";
-import { useQuery, useMutation } from "@apollo/client";
-import { Link, useHistory } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Container,
-  Card,
-  Button,
-  Badge,
-  Modal,
-  Spinner,
-} from "react-bootstrap";
+import { useQuery } from "@apollo/client";
+import { Row, Col, Container, Card, Badge, Spinner } from "react-bootstrap";
 import {
   BagCheckFill,
   Calendar2WeekFill,
@@ -30,8 +19,6 @@ const AdminProgramDetails = ({ match }) => {
   const {
     params: { id },
   } = match;
-
-  const [show, setShow] = useState(false);
 
   const { loading, error, data } = useQuery(GET_ONE_PROGRAM, {
     variables: { programId: id },

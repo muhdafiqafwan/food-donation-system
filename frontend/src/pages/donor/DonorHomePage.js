@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth";
 import { GET_NEAR_ORGANIZATION } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
@@ -16,10 +16,6 @@ import ReactMapGL, { Marker, Popup, Source, Layer } from "react-map-gl";
 import markerUser from "../../images/mapbox-marker-icon-20px-blue.png";
 import markerNGO from "../../images/mapbox-marker-icon-20px-red.png";
 var turf = require("@turf/turf");
-// import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-
-// mapboxgl.accessToken =
-//   "pk.eyJ1IjoibXVoZGFmaXFhZndhbiIsImEiOiJja3lmb2Q2aTAwMG83MnhvbGpobjExNzdoIn0.51DA8Mi__6SWGIzIoqniIA";
 
 const DonorHomePage = () => {
   const { user } = useContext(AuthContext);
@@ -27,22 +23,6 @@ const DonorHomePage = () => {
     window.location = window.location + "#loaded";
     window.location.reload();
   }
-  // const ref = useRef(null);
-  // const [map, setMap] = useState(null);
-  // useEffect(() => {
-  //   if (ref.current && !map) {
-  //     const map = new mapboxgl.Map({
-  //       container: ref.current,
-  //       style: "mapbox://styles/mapbox/streets-v11",
-  //       center: [
-  //         parseFloat(user.user.longLat.split(",")[0].trim()),
-  //         parseFloat(user.user.longLat.split(",")[1].trim()),
-  //       ],
-  //       zoom: 14,
-  //     });
-  //     setMap(map);
-  //   }
-  // }, [ref, map]);
 
   const [viewport, setViewport] = useState({
     latitude: parseFloat(user.user.longLat.split(",")[1].trim()),
@@ -184,7 +164,7 @@ const DonorHomePage = () => {
                 setUserLocation(user.user);
               }}
             >
-              <img src={markerUser} />
+              <img src={markerUser} alt="Map" />
             </button>
           </Marker>
 
@@ -218,7 +198,7 @@ const DonorHomePage = () => {
                   setSelectedLocation(organizations);
                 }}
               >
-                <img src={markerNGO} />
+                <img src={markerNGO} alt="Map" />
               </button>
             </Marker>
           ))}

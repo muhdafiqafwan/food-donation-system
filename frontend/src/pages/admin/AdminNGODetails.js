@@ -12,6 +12,7 @@ import {
   Badge,
   Spinner,
   Modal,
+  Alert,
 } from "react-bootstrap";
 import {
   CurrencyDollar,
@@ -20,29 +21,40 @@ import {
 } from "react-bootstrap-icons";
 
 const AdminNGODetails = ({ match }) => {
-  const history = useHistory();
   const {
     params: { id },
   } = match;
+  const history = useHistory();
 
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(true);
   const [values, setValues] = useState("");
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: "/adminNGO",
+    });
+  };
 
   const { loading, error, data } = useQuery(GET_ONE_ORGANIZATION, {
     variables: { organizationId: id },
   });
 
-  const [verifyOrganization] = useMutation(VERIFY_ORGANIZATION, {
-    variables: {
-      organizationId: id,
-      verified: values,
-    },
-    errorPolicy: "all",
-    onError(ApolloError) {
-      console.log(ApolloError.message);
-    },
-  });
+  const [verifyOrganization, { data: dataVerify }] = useMutation(
+    VERIFY_ORGANIZATION,
+    {
+      variables: {
+        organizationId: id,
+        verified: values,
+      },
+      errorPolicy: "all",
+      onError(ApolloError) {
+        console.log(ApolloError.message);
+      },
+    }
+  );
 
   const handleCloseApprove = () => {
     setShowApprove(false);
@@ -54,7 +66,6 @@ const AdminNGODetails = ({ match }) => {
   };
   const handleYesApprove = () => {
     verifyOrganization();
-    history.push(`/ngoDetails/${id}`);
   };
 
   const handleCloseReject = () => {
@@ -67,7 +78,6 @@ const AdminNGODetails = ({ match }) => {
   };
   const handleYesReject = () => {
     verifyOrganization();
-    history.push(`/ngoDetails/${id}`);
   };
 
   const getDisplayButton = (verified) => {
@@ -89,6 +99,20 @@ const AdminNGODetails = ({ match }) => {
       />
     );
   if (error) return `Error! ${error.message}`;
+  if (dataVerify)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Verify successful</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
 
   return (
     <Container>

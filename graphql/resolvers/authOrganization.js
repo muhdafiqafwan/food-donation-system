@@ -112,6 +112,14 @@ module.exports = {
       if (!isEqual) {
         throw new Error(errorName.INVALID_PASSWORD);
       }
+      const pendingOrg = await Organization.findOne({ verified: "Pending" });
+      if (pendingOrg) {
+        throw new Error(errorName.ORGANIZATION_PENDING);
+      }
+      const rejectedOrg = await Organization.findOne({ verified: "Rejected" });
+      if (rejectedOrg) {
+        throw new Error(errorName.ORGANIZATION_REJECTED);
+      }
       const { accessToken } = createTokensOrganization(fetchedOrg);
       return {
         organizationId: fetchedOrg.id,

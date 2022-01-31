@@ -10,7 +10,7 @@ function AuthRouteAdmin({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        user.isAuth && user.role == "admin" ? (
+        user.isAuth && user.role === "admin" ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

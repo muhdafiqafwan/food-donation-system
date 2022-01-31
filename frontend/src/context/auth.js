@@ -14,15 +14,15 @@ if (localStorage.getItem("token")) {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
   } else {
-    if (localStorage.getItem("role") == "donor") {
+    if (localStorage.getItem("role") === "donor") {
       initialState.user = decodedToken;
       initialState.isAuth = true;
       initialState.role = "donor";
-    } else if (localStorage.getItem("role") == "organization") {
+    } else if (localStorage.getItem("role") === "organization") {
       initialState.user = decodedToken;
       initialState.isAuth = true;
       initialState.role = "organization";
-    } else if (localStorage.getItem("role") == "admin") {
+    } else if (localStorage.getItem("role") === "admin") {
       initialState.user = decodedToken;
       initialState.isAuth = true;
       initialState.role = "admin";

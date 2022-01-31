@@ -108,7 +108,7 @@ const DonorRegisterPage = () => {
     }
   };
 
-  const [addDonor, { loading, error }] = useMutation(CREATE_DONOR, {
+  const [addDonor, { data, loading, error }] = useMutation(CREATE_DONOR, {
     variables: values,
     errorPolicy: "all",
     onError(ApolloError) {

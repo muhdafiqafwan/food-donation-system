@@ -10,7 +10,7 @@ function AuthRouteDonor({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        user.isAuth && user.role == "donor" ? (
+        user.isAuth && user.role === "donor" ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

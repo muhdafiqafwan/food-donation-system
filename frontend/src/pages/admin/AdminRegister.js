@@ -11,7 +11,6 @@ import {
   Button,
   Alert,
   Modal,
-  Figure,
 } from "react-bootstrap";
 import "../Form.css";
 

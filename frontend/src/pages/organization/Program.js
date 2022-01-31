@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { CREATE_PROGRAM } from "../../GraphQL/Mutations";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
@@ -7,7 +6,6 @@ import {
   Row,
   Col,
   Container,
-  Card,
   Button,
   Form,
   Alert,
@@ -17,9 +15,16 @@ import "../Form.css";
 
 const Program = () => {
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: "/organizationDashboard",
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -70,7 +75,7 @@ const Program = () => {
     return newErrors;
   };
 
-  const [addProgram, { loading, error }] = useMutation(CREATE_PROGRAM, {
+  const [addProgram, { data, loading, error }] = useMutation(CREATE_PROGRAM, {
     variables: values,
     errorPolicy: "all",
     onError(ApolloError) {
@@ -99,6 +104,21 @@ const Program = () => {
           <div className="d-flex justify-content-end">
             <Button onClick={handleClose} variant="outline-danger">
               Try again
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  if (data)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Program created successfully</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
             </Button>
           </div>
         </Alert>

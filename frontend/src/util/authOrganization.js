@@ -10,7 +10,7 @@ function AuthRouteOrganization({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        user.isAuth && user.role == "organization" ? (
+        user.isAuth && user.role === "organization" ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

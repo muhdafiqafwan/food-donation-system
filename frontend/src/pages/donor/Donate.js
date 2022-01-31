@@ -1,19 +1,8 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { ADD_FOOD } from "../../GraphQL/Mutations";
-import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Container,
-  Card,
-  Button,
-  Form,
-  Alert,
-  Modal,
-} from "react-bootstrap";
+import { Button, Alert, Modal } from "react-bootstrap";
 import "../Form.css";
 import { TrashFill } from "react-bootstrap-icons";
 
@@ -53,7 +42,7 @@ const Donate = ({ match }) => {
 
         if (
           form[index].quantity === "" ||
-          form[index].quantity == 0 ||
+          form[index].quantity === 0 ||
           form[index].quantity < 0
         ) {
           allPrev[index].errors.quantity = "Quantity is required";
@@ -130,17 +119,17 @@ const Donate = ({ match }) => {
         let dV;
         let qV;
 
-        if (event.target.name == "quantity") {
+        if (event.target.name === "quantity") {
           q = [event.target.name];
           qV = parseInt(event.target.value);
         }
 
-        if (event.target.name == "name") {
+        if (event.target.name === "name") {
           n = [event.target.name];
           nV = event.target.value;
         }
 
-        if (event.target.name == "description") {
+        if (event.target.name === "description") {
           d = [event.target.name];
           dV = event.target.value;
         }
@@ -160,7 +149,7 @@ const Donate = ({ match }) => {
     setForm((prev) => prev.filter((item) => item !== prev[index]));
     setShowForm((prev) => prev.filter((item) => item !== prev[index]));
 
-    if (index == 0) {
+    if (index === 0) {
       document.getElementById("sb").disabled = true;
     }
   };

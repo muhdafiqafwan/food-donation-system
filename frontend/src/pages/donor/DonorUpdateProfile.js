@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { UPDATE_DONOR } from "../../GraphQL/Mutations";
 import { GET_ONE_DONOR } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -8,7 +7,6 @@ import {
   Row,
   Col,
   Container,
-  Card,
   Button,
   Form,
   Alert,
@@ -27,9 +25,16 @@ const DonorUpdateProfile = ({ match }) => {
   });
 
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: `/donorProfile/${id}`,
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -110,16 +115,19 @@ const DonorUpdateProfile = ({ match }) => {
     }
   };
 
-  const [updateDonor, { loading, error }] = useMutation(UPDATE_DONOR, {
-    variables: {
-      donorId: id,
-      donor: values,
-    },
-    errorPolicy: "all",
-    onError(ApolloError) {
-      console.log(ApolloError.message);
-    },
-  });
+  const [updateDonor, { data: dataUpdate, loading, error }] = useMutation(
+    UPDATE_DONOR,
+    {
+      variables: {
+        donorId: id,
+        donor: values,
+      },
+      errorPolicy: "all",
+      onError(ApolloError) {
+        console.log(ApolloError.message);
+      },
+    }
+  );
 
   const history = useHistory();
 
@@ -148,14 +156,28 @@ const DonorUpdateProfile = ({ match }) => {
       </Modal>
     );
 
-  const onSubmit = async (event) => {
+  if (dataUpdate)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Profile update successfully</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  const onSubmit = (event) => {
     event.preventDefault();
     const newErrors = findFormErrors();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      await updateDonor();
-      history.push(`/donorProfile/${id}`);
+      updateDonor();
     }
   };
 

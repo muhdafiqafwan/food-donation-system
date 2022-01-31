@@ -223,7 +223,8 @@ const OrganizationRegisterPage = () => {
             <Form.Group controlId="formDescription">
               <Form.Control
                 required
-                type="text"
+                as="textarea"
+                style={{ height: "100px" }}
                 placeholder="Description"
                 name="description"
                 value={values.description}

@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { UPDATE_ORGANIZATION } from "../../GraphQL/Mutations";
 import { GET_ONE_ORGANIZATION } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -8,7 +7,6 @@ import {
   Row,
   Col,
   Container,
-  Card,
   Button,
   Form,
   Alert,
@@ -27,9 +25,16 @@ const OrganizationUpdateProfile = ({ match }) => {
   });
 
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: `/organizationProfile/${id}`,
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -118,9 +123,8 @@ const OrganizationUpdateProfile = ({ match }) => {
     }
   };
 
-  const [updateOrganization, { loading, error }] = useMutation(
-    UPDATE_ORGANIZATION,
-    {
+  const [updateOrganization, { data: dataUpdate, loading, error }] =
+    useMutation(UPDATE_ORGANIZATION, {
       variables: {
         organizationId: id,
         organization: values,
@@ -129,8 +133,7 @@ const OrganizationUpdateProfile = ({ match }) => {
       onError(ApolloError) {
         console.log(ApolloError.message);
       },
-    }
-  );
+    });
 
   const history = useHistory();
 
@@ -159,14 +162,28 @@ const OrganizationUpdateProfile = ({ match }) => {
       </Modal>
     );
 
-  const onSubmit = async (event) => {
+  if (dataUpdate)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Profile update successfully</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  const onSubmit = (event) => {
     event.preventDefault();
     const newErrors = findFormErrors();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      await updateOrganization();
-      history.push(`/organizationProfile/${id}`);
+      updateOrganization();
     }
   };
 

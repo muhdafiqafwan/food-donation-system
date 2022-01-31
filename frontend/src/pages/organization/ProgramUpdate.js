@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
 import { UPDATE_PROGRAM } from "../../GraphQL/Mutations";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -8,7 +7,6 @@ import {
   Row,
   Col,
   Container,
-  Card,
   Button,
   Form,
   Alert,
@@ -25,9 +23,16 @@ const ProgramUpdate = ({ match }) => {
     variables: { programId: id },
   });
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: `/details/${id}`,
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -78,16 +83,19 @@ const ProgramUpdate = ({ match }) => {
     return newErrors;
   };
 
-  const [updateProgram, { loading, error }] = useMutation(UPDATE_PROGRAM, {
-    variables: {
-      programId: id,
-      program: values,
-    },
-    errorPolicy: "all",
-    onError(ApolloError) {
-      console.log(ApolloError.message);
-    },
-  });
+  const [updateProgram, { data: dataUpdate, loading, error }] = useMutation(
+    UPDATE_PROGRAM,
+    {
+      variables: {
+        programId: id,
+        program: values,
+      },
+      errorPolicy: "all",
+      onError(ApolloError) {
+        console.log(ApolloError.message);
+      },
+    }
+  );
 
   const history = useHistory();
 
@@ -116,14 +124,28 @@ const ProgramUpdate = ({ match }) => {
       </Modal>
     );
 
-  const onSubmit = async (event) => {
+  if (dataUpdate)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Program update successfully</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  const onSubmit = (event) => {
     event.preventDefault();
     const newErrors = findFormErrors();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      await updateProgram();
-      history.push(`/details/${id}`);
+      updateProgram();
     }
   };
 

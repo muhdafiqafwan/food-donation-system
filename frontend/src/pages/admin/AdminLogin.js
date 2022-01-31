@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { LOGIN_ADMIN } from "../../GraphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
 import { AuthContext } from "../../context/auth";

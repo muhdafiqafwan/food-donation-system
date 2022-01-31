@@ -24,9 +24,16 @@ const DonationReject = ({ match }) => {
   });
 
   const [show, setShow] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
+  };
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    history.push({
+      pathname: `/details/${data.oneItem.program._id}`,
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -52,16 +59,19 @@ const DonationReject = ({ match }) => {
     return newErrors;
   };
 
-  const [updateItem, { loading, error }] = useMutation(UPDATE_ITEM, {
-    variables: {
-      itemId: id,
-      item: values,
-    },
-    errorPolicy: "all",
-    onError(ApolloError) {
-      console.log(ApolloError.message);
-    },
-  });
+  const [updateItem, { data: dataUpdate, loading, error }] = useMutation(
+    UPDATE_ITEM,
+    {
+      variables: {
+        itemId: id,
+        item: values,
+      },
+      errorPolicy: "all",
+      onError(ApolloError) {
+        console.log(ApolloError.message);
+      },
+    }
+  );
 
   const history = useHistory();
 
@@ -90,14 +100,28 @@ const DonationReject = ({ match }) => {
       </Modal>
     );
 
-  const onSubmit = async (event) => {
+  if (dataUpdate)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Food donation rejected</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+
+  const onSubmit = (event) => {
     event.preventDefault();
     const newErrors = findFormErrors();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      await updateItem();
-      history.push(`/details/${data.oneItem.program._id}`);
+      updateItem();
     }
   };
 

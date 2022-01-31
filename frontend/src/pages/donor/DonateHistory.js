@@ -70,9 +70,6 @@ const DonateHistory = () => {
               <Card.Title className="text-center">
                 <b>Donation History</b>
               </Card.Title>
-              {/* <Card.Text className="text-center">
-                Your donation history
-              </Card.Text> */}
               <hr></hr>
 
               <Row className="justify-content-sm-center mt-4">

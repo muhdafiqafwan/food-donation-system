@@ -8,7 +8,7 @@ function NavBar() {
   console.log(user);
 
   const navBar =
-    user.isAuth && user.role == "donor" ? (
+    user.isAuth && user.role === "donor" ? (
       <div>
         <Navbar collapseOnSelect expand="sm" bg="navCol" variant="dark">
           <Navbar.Brand eventKey={1} as={Link} to="/donorHomepage">
@@ -40,7 +40,7 @@ function NavBar() {
           </Navbar.Collapse>
         </Navbar>
       </div>
-    ) : user.isAuth && user.role == "organization" ? (
+    ) : user.isAuth && user.role === "organization" ? (
       <div>
         <Navbar collapseOnSelect expand="sm" bg="navCol" variant="dark">
           <Navbar.Brand eventKey={1} as={Link} to="/organizationDashboard">
@@ -67,7 +67,7 @@ function NavBar() {
           </Navbar.Collapse>
         </Navbar>
       </div>
-    ) : user.isAuth && user.role == "admin" ? (
+    ) : user.isAuth && user.role === "admin" ? (
       <div>
         <Navbar collapseOnSelect expand="sm" bg="navCol" variant="dark">
           <Navbar.Brand eventKey={1} as={Link} to="/adminDashboard">

@@ -27,6 +27,17 @@ const formatError = new FormatError([
     statusCode: "400",
   },
   {
+    name: "ORGANIZATION_PENDING",
+    message: "Your account has not been verified yet.",
+    statusCode: "400",
+  },
+  {
+    name: "ORGANIZATION_REJECTED",
+    message:
+      "Your account has been rejected. Please contact admin for more details.",
+    statusCode: "400",
+  },
+  {
     name: "ADMIN_NOT_EXIST",
     message: "Admin does not exist.",
     statusCode: "400",
