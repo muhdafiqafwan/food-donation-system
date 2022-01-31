@@ -17,13 +17,13 @@ import "../Form.css";
 
 const OrganizationRegisterPage = () => {
   const [show, setShow] = useState(true);
-  const [show1, setShow1] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
     setShow(false);
     history.go(0);
   };
-  const handleClose1 = () => {
-    setShow1(false);
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
     history.push({
       pathname: "/organizationLogin",
     });
@@ -162,13 +162,13 @@ const OrganizationRegisterPage = () => {
 
   if (data)
     return (
-      <Modal show={show1} backdrop="static" keyboard={false}>
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
         <Alert variant="success" className="mb-0">
           <Alert.Heading>Registration success</Alert.Heading>
           <p>Please go to Login page to proceed</p>
           <hr />
           <div className="d-flex justify-content-end">
-            <Button onClick={handleClose1} variant="outline-success">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
               Continue
             </Button>
           </div>
