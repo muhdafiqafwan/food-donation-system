@@ -16,7 +16,7 @@ Web-based Food Donation System is a system that connects donor and NGO to facili
 - GraphQL
 
 # Screenshot
-![Homepage1](https://user-images.githubusercontent.com/63769862/153014903-3cb568d0-3dbc-4055-9df9-007ac1375b3e.PNG)
+![Homepage1](https://user-images.githubusercontent.com/63769862/153015360-1cdf3e37-eb11-4186-83c5-ff2695d440a4.PNG)
 ![Donor Dashboard, List of NGO Geolocations](https://user-images.githubusercontent.com/63769862/153014389-02664dad-a40f-4529-bb2c-83a686361fb1.PNG)
 ![Donor Program Details](https://user-images.githubusercontent.com/63769862/153014452-b0bc3f1e-403b-48d9-852a-c80c021bf5a1.PNG)
 ![Donor Create Food Donation](https://user-images.githubusercontent.com/63769862/153014477-203c3c85-d6d7-4d3e-a190-7430a612c10e.PNG)
