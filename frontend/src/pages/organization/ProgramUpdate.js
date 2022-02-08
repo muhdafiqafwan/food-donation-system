@@ -4,6 +4,8 @@ import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { regBankAcc } from "../../util/regex";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
+
 import {
   Row,
   Col,
@@ -229,8 +231,7 @@ const ProgramUpdate = ({ match }) => {
               <Form.Label>Date of Program</Form.Label>
               <Form.Control
                 required
-                type={type}
-                onFocus={() => setType("date")}
+                type="date"
                 placeholder="Date"
                 name="date"
                 value={values.date}

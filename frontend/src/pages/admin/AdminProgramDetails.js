@@ -2,6 +2,7 @@ import React from "react";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { Row, Col, Container, Card, Badge, Spinner } from "react-bootstrap";
+import moment from "moment";
 import {
   BagCheckFill,
   Calendar2WeekFill,
@@ -87,7 +88,8 @@ const AdminProgramDetails = ({ match }) => {
               </Card.Text>
               <h5>
                 <Badge variant="dark">
-                  <CalendarDateFill /> {data.oneProgram.date}
+                  <CalendarDateFill />{" "}
+                  {moment(data.oneProgram.date).format("DD/MM/YYYY")}
                 </Badge>{" "}
                 <Badge variant="dark">
                   <Calendar2WeekFill /> {data.oneProgram.duration} duration
@@ -105,6 +107,12 @@ const AdminProgramDetails = ({ match }) => {
                 <b>Bank Account</b>
               </Card.Text>
               <Card.Text>{data.oneProgram.bankAcc}</Card.Text>
+              <hr></hr>
+
+              <Card.Text>
+                <b>Person in Charge (PIC)</b>
+              </Card.Text>
+              <Card.Text>{data.oneProgram.picName}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
