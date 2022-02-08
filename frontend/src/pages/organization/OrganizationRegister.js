@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CREATE_ORGANIZATION } from "../../GraphQL/Mutations";
 import { regEmail, regPhone, regPass } from "../../util/regex";
+import { regBankAcc } from "../../util/regex";
 import { useMutation } from "@apollo/client";
 
 import {
@@ -97,6 +98,9 @@ const OrganizationRegisterPage = () => {
 
     if (!bankAcc || bankAcc === "")
       newErrors.bankAcc = "Please enter bank account number.";
+    else if (!regBankAcc.test(bankAcc))
+      newErrors.bankAcc = "Invalid bank account number format.";
+
     return newErrors;
   };
 

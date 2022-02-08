@@ -4,7 +4,6 @@ import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
 import { regBankAcc } from "../../util/regex";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
-import moment from "moment";
 
 import {
   Row,

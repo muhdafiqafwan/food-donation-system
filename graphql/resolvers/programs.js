@@ -1,4 +1,5 @@
 const Program = require("../../models/program");
+const Donor = require("../../models/donor");
 const Item = require("../../models/item");
 const Organization = require("../../models/organization");
 const { transformProgram } = require("./merge");
@@ -109,6 +110,10 @@ module.exports = {
         { $pull: { createdPrograms: args.programId } }
       );
       const fetchedItem = await Item.findOne({ program: args.programId });
+      await Donor.updateOne(
+        { itemDonated: fetchedItem },
+        { $pull: { itemDonated: fetchedItem } }
+      );
       if (fetchedItem) {
         await Item.deleteMany({ programId: args.programId });
       }
