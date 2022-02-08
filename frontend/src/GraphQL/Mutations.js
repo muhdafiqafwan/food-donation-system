@@ -156,6 +156,16 @@ export const DELETE_PROGRAM = gql`
   }
 `;
 
+export const REMOVE_ORGANIZATION = gql`
+  mutation deleteOrganization($organizationId: ID!) {
+    deleteOrganization(organizationId: $organizationId) {
+      name
+      description
+      email
+    }
+  }
+`;
+
 export const ADD_FOOD = gql`
   mutation createItem($programId: ID!, $food: [FoodInput!]) {
     createItem(programId: $programId, foodInput: $food) {

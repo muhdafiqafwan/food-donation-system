@@ -199,6 +199,7 @@ type RootMutation {
 
     createOrganization(organizationInput: OrganizationInput): AuthDataOrganization!
     updateOrganization(organizationId: ID!, organizationInput: OrganizationUpdateInput): Organization
+    deleteOrganization(organizationId: ID!): Organization!
 
     createDonor(donorInput: DonorInput): AuthDataDonor!
     updateDonor(donorId: ID!, donorInput: DonorUpdateInput): Donor

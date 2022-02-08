@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const Organization = require("../../models/organization");
 const Donor = require("../../models/donor");
+const Program = require("../../models/program");
+const Item = require("../../models/item");
 const { transformOrganization } = require("./merge");
 const { createTokensOrganization } = require("./createTokens");
 const loadash = require("lodash");
@@ -207,6 +209,34 @@ module.exports = {
         { new: true }
       );
       return transformOrganization(verifyingOrg);
+    } catch (err) {
+      throw err;
+    }
+  },
+  deleteOrganization: async (args, { req, errorName }) => {
+    if (!req.organizationId && !req.isAuth) {
+      throw new Error(errorName.UNAUTHORIZED);
+    }
+    try {
+      const fetchedOrg = await Organization.findOne({
+        _id: args.organizationId,
+      });
+      if (!fetchedOrg) {
+        throw new Error(errorName.ORGANIZATION_NOT_FOUND);
+      }
+      const fetchedProgram = await Program.findOne({
+        organization: args.organizationId,
+      });
+      const fetchedItem = await Item.findOne({ program: fetchedProgram });
+
+      if (fetchedItem) {
+        await Item.deleteMany({ programId: fetchedProgram });
+      }
+      if (fetchedProgram) {
+        await Program.deleteMany({ organization: args.organizationId });
+      }
+      await Organization.deleteOne({ _id: args.organizationId });
+      return transformOrganization(fetchedOrg);
     } catch (err) {
       throw err;
     }

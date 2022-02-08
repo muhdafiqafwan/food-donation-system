@@ -18,17 +18,18 @@ const formatError = new FormatError([
   },
   {
     name: "DONOR_NOT_EXIST",
-    message: "Donor does not exist.",
+    message: "Donor with the email does not exist.",
     statusCode: "400",
   },
   {
     name: "ORGANIZATION_NOT_EXIST",
-    message: "Organization does not exist.",
+    message: "Organization with the email does not exist.",
     statusCode: "400",
   },
   {
     name: "ORGANIZATION_PENDING",
-    message: "Your account has not been verified yet.",
+    message:
+      "Your account has not been verified yet. Please wait for admin to verify your account.",
     statusCode: "400",
   },
   {
@@ -39,7 +40,7 @@ const formatError = new FormatError([
   },
   {
     name: "ADMIN_NOT_EXIST",
-    message: "Admin does not exist.",
+    message: "Admin with the email does not exist.",
     statusCode: "400",
   },
   {

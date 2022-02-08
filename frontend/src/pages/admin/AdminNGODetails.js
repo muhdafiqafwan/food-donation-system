@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { GET_ONE_ORGANIZATION } from "../../GraphQL/Queries";
-import { VERIFY_ORGANIZATION } from "../../GraphQL/Mutations";
+import {
+  VERIFY_ORGANIZATION,
+  REMOVE_ORGANIZATION,
+} from "../../GraphQL/Mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import { Link, useHistory } from "react-router-dom";
 import {
@@ -28,6 +31,7 @@ const AdminNGODetails = ({ match }) => {
 
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
+  const [showRemove, setShowRemove] = useState(false);
   const [showSuccess, setShowSuccess] = useState(true);
   const [values, setValues] = useState("");
 
@@ -48,6 +52,19 @@ const AdminNGODetails = ({ match }) => {
       variables: {
         organizationId: id,
         verified: values,
+      },
+      errorPolicy: "all",
+      onError(ApolloError) {
+        console.log(ApolloError.message);
+      },
+    }
+  );
+
+  const [removeOrganization, { data: dataRemove }] = useMutation(
+    REMOVE_ORGANIZATION,
+    {
+      variables: {
+        organizationId: id,
       },
       errorPolicy: "all",
       onError(ApolloError) {
@@ -80,10 +97,28 @@ const AdminNGODetails = ({ match }) => {
     verifyOrganization();
   };
 
+  const handleCloseRemove = () => {
+    setShowRemove(false);
+    setValues("");
+  };
+  const handleShowRemove = () => {
+    setShowRemove(true);
+  };
+  const handleYesRemove = () => {
+    removeOrganization();
+  };
+
   const getDisplayButton = (verified) => {
     if (verified === "Pending") return "inline";
     if (verified === "Verified") return "none";
     if (verified === "Rejected") return "none";
+    return "";
+  };
+
+  const getDisplayButtonRemove = (verified) => {
+    if (verified === "Pending") return "none";
+    if (verified === "Verified") return "inline";
+    if (verified === "Rejected") return "inline";
     return "";
   };
 
@@ -104,6 +139,21 @@ const AdminNGODetails = ({ match }) => {
       <Modal show={showSuccess} backdrop="static" keyboard={false}>
         <Alert variant="success" className="mb-0">
           <Alert.Heading>Verify successful</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button onClick={handleCloseSuccess} variant="outline-success">
+              Continue
+            </Button>
+          </div>
+        </Alert>
+      </Modal>
+    );
+  if (dataRemove)
+    return (
+      <Modal show={showSuccess} backdrop="static" keyboard={false}>
+        <Alert variant="success" className="mb-0">
+          <Alert.Heading>Remove successful</Alert.Heading>
+          <p>Organization has been removed.</p>
           <hr />
           <div className="d-flex justify-content-end">
             <Button onClick={handleCloseSuccess} variant="outline-success">
@@ -155,6 +205,27 @@ const AdminNGODetails = ({ match }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal
+        show={showRemove}
+        onHide={handleCloseRemove}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Remove NGO</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to remove this NGO?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleCloseRemove}>
+            No
+          </Button>
+          <Button variant="success" onClick={handleYesRemove}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Row className="justify-content-sm-center mt-4 mb-5">
         <Col lg="10">
           <Card className="shadow-sm">
@@ -181,6 +252,18 @@ const AdminNGODetails = ({ match }) => {
                   {data.oneOrganization.phone}
                 </Badge>
                 <br></br>
+                <Button
+                  style={{
+                    display: getDisplayButtonRemove(
+                      data.oneOrganization.verified
+                    ),
+                  }}
+                  className="float-right"
+                  variant="danger"
+                  onClick={handleShowRemove}
+                >
+                  Remove
+                </Button>
                 <Button
                   style={{
                     display: getDisplayButton(data.oneOrganization.verified),
