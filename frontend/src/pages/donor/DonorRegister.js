@@ -51,6 +51,8 @@ const DonorRegisterPage = () => {
       });
   };
 
+  let regName = RegExp(/^[0-9]*$/);
+
   const findFormErrors = () => {
     const { firstName, lastName, phone, email, password, longLat } = values;
     const newErrors = {};
@@ -58,7 +60,9 @@ const DonorRegisterPage = () => {
     if (!firstName || firstName === "")
       newErrors.firstName = "cannot be blank!";
     if (!lastName || lastName === "") newErrors.lastName = "cannot be blank!";
-    if (!phone || phone === "") newErrors.phone = "cannot be blank!";
+    if (!phone || phone === "")
+      newErrors.phone = "Please enter your phone number.";
+    if (!regName.test(phone)) newErrors.phone = "Cannot contain alphabet.";
     if (!email || email === "") newErrors.email = "cannot be blank!";
     if (!password || password === "") newErrors.password = "cannot be blank!";
     if (!longLat || longLat === "") newErrors.longLat = "cannot be blank!";
@@ -225,7 +229,7 @@ const DonorRegisterPage = () => {
                 isInvalid={!!errors.phone}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your phone number.
+                {errors.phone}
               </Form.Control.Feedback>
             </Form.Group>
 
