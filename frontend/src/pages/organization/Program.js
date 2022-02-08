@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CREATE_PROGRAM } from "../../GraphQL/Mutations";
+import { regBankAcc } from "../../util/regex";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,6 +28,7 @@ const Program = () => {
     });
   };
 
+  const [type, setType] = useState("text");
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     title: "",
@@ -61,17 +63,33 @@ const Program = () => {
     } = values;
     const newErrors = {};
 
-    if (!title || title === "") newErrors.title = "cannot be blank!";
+    if (!title || title === "")
+      newErrors.title = "Please enter a title for the program.";
+
     if (!description || description === "")
-      newErrors.description = "cannot be blank!";
-    if (!duration || duration === "") newErrors.duration = "cannot be blank!";
-    if (!date || date === "") newErrors.date = "cannot be blank!";
+      newErrors.description = "Please enter description for the program.";
+
+    if (!duration || duration === "")
+      newErrors.duration = "Please enter duration for the program.";
+
+    if (!date || date === "")
+      newErrors.date = "Please enter date for the program.";
+
     if (!itemNeeded || itemNeeded === "")
-      newErrors.itemNeeded = "cannot be blank!";
+      newErrors.itemNeeded = "Please enter item needed for the program.";
+
     if (!qtyNeeded || qtyNeeded === "")
-      newErrors.qtyNeeded = "cannot be blank!";
-    if (!bankAcc || bankAcc === "") newErrors.bankAcc = "cannot be blank!";
-    if (!picName || picName === "") newErrors.picName = "cannot be blank!";
+      newErrors.qtyNeeded =
+        "Please enter quantity item needed for the program.";
+
+    if (!bankAcc || bankAcc === "")
+      newErrors.bankAcc = "Please enter bank account number for the program.";
+    else if (!regBankAcc.test(bankAcc))
+      newErrors.bankAcc = "Invalid bank account number format.";
+
+    if (!picName || picName === "")
+      newErrors.picName =
+        "Please enter person in charge (PIC) name for the program.";
     return newErrors;
   };
 
@@ -165,7 +183,7 @@ const Program = () => {
                 isInvalid={!!errors.title}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter a title for the program.
+                {errors.title}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -180,7 +198,7 @@ const Program = () => {
                 isInvalid={!!errors.description}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter description for the program
+                {errors.description}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -188,21 +206,22 @@ const Program = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="Duration"
+                placeholder="Duration. Eg: 1 week, etc."
                 name="duration"
                 value={values.duration}
                 onChange={onChange}
                 isInvalid={!!errors.duration}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter duration for the program
+                {errors.duration}
               </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formDate">
               <Form.Control
                 required
-                type="text"
+                type={type}
+                onFocus={() => setType("date")}
                 placeholder="Date"
                 name="date"
                 value={values.date}
@@ -210,7 +229,7 @@ const Program = () => {
                 isInvalid={!!errors.date}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter date for the program
+                {errors.date}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -218,14 +237,14 @@ const Program = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="ItemNeeded"
+                placeholder="Item needed"
                 name="itemNeeded"
                 value={values.itemNeeded}
                 onChange={onChange}
                 isInvalid={!!errors.itemNeeded}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter item needed for the program
+                {errors.itemNeeded}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -233,14 +252,14 @@ const Program = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="QtyNeeded"
+                placeholder="Quantity needed"
                 name="qtyNeeded"
                 value={values.qtyNeeded}
                 onChange={onChange}
                 isInvalid={!!errors.qtyNeeded}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter quantity item needed for the program
+                {errors.qtyNeeded}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -248,14 +267,14 @@ const Program = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="BankAcc"
+                placeholder="Bank account number"
                 name="bankAcc"
                 value={values.bankAcc}
                 onChange={onChange}
                 isInvalid={!!errors.bankAcc}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter bank account number for the program
+                {errors.bankAcc}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -263,14 +282,14 @@ const Program = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="PicName"
+                placeholder="Person in Charge name"
                 name="picName"
                 value={values.picName}
                 onChange={onChange}
                 isInvalid={!!errors.picName}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter person in charge (PIC) name for the program
+                {errors.picName}
               </Form.Control.Feedback>
             </Form.Group>
 

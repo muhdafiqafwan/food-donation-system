@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UPDATE_ORGANIZATION } from "../../GraphQL/Mutations";
 import { GET_ONE_ORGANIZATION } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
-import { regEmail, regPhone, regPass } from "../../util/regex";
+import { regEmail, regPhone } from "../../util/regex";
 import { useHistory } from "react-router-dom";
 import {
   Row,

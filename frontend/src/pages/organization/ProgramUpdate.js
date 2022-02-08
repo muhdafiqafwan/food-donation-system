@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UPDATE_PROGRAM } from "../../GraphQL/Mutations";
 import { GET_ONE_PROGRAM } from "../../GraphQL/Queries";
+import { regBankAcc } from "../../util/regex";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import {
@@ -22,6 +23,8 @@ const ProgramUpdate = ({ match }) => {
   const { data } = useQuery(GET_ONE_PROGRAM, {
     variables: { programId: id },
   });
+
+  const [type, setType] = useState("text");
   const [show, setShow] = useState(true);
   const [showSuccess, setShowSuccess] = useState(true);
   const handleClose = () => {
@@ -69,17 +72,33 @@ const ProgramUpdate = ({ match }) => {
     } = values;
     const newErrors = {};
 
-    if (!title || title === "") newErrors.title = "cannot be blank!";
+    if (!title || title === "")
+      newErrors.title = "Please enter a title for the program.";
+
     if (!description || description === "")
-      newErrors.description = "cannot be blank!";
-    if (!duration || duration === "") newErrors.duration = "cannot be blank!";
-    if (!date || date === "") newErrors.date = "cannot be blank!";
+      newErrors.description = "Please enter description for the program.";
+
+    if (!duration || duration === "")
+      newErrors.duration = "Please enter duration for the program.";
+
+    if (!date || date === "")
+      newErrors.date = "Please enter date for the program.";
+
     if (!itemNeeded || itemNeeded === "")
-      newErrors.itemNeeded = "cannot be blank!";
+      newErrors.itemNeeded = "Please enter item needed for the program.";
+
     if (!qtyNeeded || qtyNeeded === "")
-      newErrors.qtyNeeded = "cannot be blank!";
-    if (!bankAcc || bankAcc === "") newErrors.bankAcc = "cannot be blank!";
-    if (!picName || picName === "") newErrors.picName = "cannot be blank!";
+      newErrors.qtyNeeded =
+        "Please enter quantity item needed for the program.";
+
+    if (!bankAcc || bankAcc === "")
+      newErrors.bankAcc = "Please enter bank account number for the program.";
+    else if (!regBankAcc.test(bankAcc))
+      newErrors.bankAcc = "Invalid bank account number format.";
+
+    if (!picName || picName === "")
+      newErrors.picName =
+        "Please enter person in charge (PIC) name for the program.";
     return newErrors;
   };
 
@@ -210,7 +229,8 @@ const ProgramUpdate = ({ match }) => {
               <Form.Label>Date of Program</Form.Label>
               <Form.Control
                 required
-                type="text"
+                type={type}
+                onFocus={() => setType("date")}
                 placeholder="Date"
                 name="date"
                 value={values.date}
