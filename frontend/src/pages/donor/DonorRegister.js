@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CREATE_DONOR } from "../../GraphQL/Mutations";
+import { regEmail, regPhone, regPass } from "../../util/regex";
 import { useMutation } from "@apollo/client";
 import {
   Row,
@@ -51,21 +52,33 @@ const DonorRegisterPage = () => {
       });
   };
 
-  let regName = RegExp(/^[0-9]*$/);
-
   const findFormErrors = () => {
     const { firstName, lastName, phone, email, password, longLat } = values;
     const newErrors = {};
 
     if (!firstName || firstName === "")
-      newErrors.firstName = "cannot be blank!";
-    if (!lastName || lastName === "") newErrors.lastName = "cannot be blank!";
+      newErrors.firstName = "Please enter your first name.";
+
+    if (!lastName || lastName === "")
+      newErrors.lastName = "Please enter your last name.";
+
     if (!phone || phone === "")
       newErrors.phone = "Please enter your phone number.";
-    if (!regName.test(phone)) newErrors.phone = "Cannot contain alphabet.";
-    if (!email || email === "") newErrors.email = "cannot be blank!";
-    if (!password || password === "") newErrors.password = "cannot be blank!";
-    if (!longLat || longLat === "") newErrors.longLat = "cannot be blank!";
+    else if (!regPhone.test(phone))
+      newErrors.phone = "Invalid phone number format. Eg: 01X-XXXXXXX";
+
+    if (!email || email === "")
+      newErrors.email = "Please enter your email address.";
+    else if (!regEmail.test(email)) newErrors.email = "Invalid email format.";
+
+    if (!password || password === "")
+      newErrors.password = "Please enter your password.";
+    else if (!regPass.test(password))
+      newErrors.password =
+        "Must have at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.";
+
+    if (!longLat || longLat === "")
+      newErrors.longLat = "Please enter your location.";
 
     return newErrors;
   };
@@ -199,7 +212,7 @@ const DonorRegisterPage = () => {
                 isInvalid={!!errors.firstName}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your first name.
+                {errors.firstName}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -214,7 +227,7 @@ const DonorRegisterPage = () => {
                 isInvalid={!!errors.lastName}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your last name.
+                {errors.lastName}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -222,7 +235,7 @@ const DonorRegisterPage = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="Phone number"
+                placeholder="Phone number. Eg: 01X-XXXXXXX"
                 name="phone"
                 value={values.phone}
                 onChange={onChange}
@@ -248,7 +261,7 @@ const DonorRegisterPage = () => {
                     isInvalid={!!errors.longLat}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please enter your location in (longitude,latitude).
+                    {errors.longLat}
                   </Form.Control.Feedback>
                 </Col>
                 <Col xl="auto">
@@ -283,7 +296,7 @@ const DonorRegisterPage = () => {
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your email address.
+                {errors.email}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -298,7 +311,7 @@ const DonorRegisterPage = () => {
                 isInvalid={!!errors.password}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your password.
+                {errors.password}
               </Form.Control.Feedback>
             </Form.Group>
 

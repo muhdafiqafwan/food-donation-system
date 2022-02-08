@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CREATE_ORGANIZATION } from "../../GraphQL/Mutations";
+import { regEmail, regPhone, regPass } from "../../util/regex";
 import { useMutation } from "@apollo/client";
 
 import {
@@ -67,16 +68,30 @@ const OrganizationRegisterPage = () => {
     } = values;
     const newErrors = {};
 
-    if (!name || name === "") newErrors.name = "cannot be blank!";
+    if (!name || name === "")
+      newErrors.name = "Please enter your organization name.";
+
     if (!description || description === "")
-      newErrors.description = "cannot be blank!";
-    if (!phone || phone === "") newErrors.phone = "cannot be blank!";
-    if (!longLat || longLat === "") newErrors.longLat = "cannot be blank!";
-    if (!email || email === "") newErrors.email = "cannot be blank!";
-    if (!password || password === "") newErrors.password = "cannot be blank!";
+      newErrors.description = "Please enter your organization description.";
+
+    if (!phone || phone === "")
+      newErrors.phone = "Please enter your phone number.";
+
+    if (!longLat || longLat === "")
+      newErrors.longLat = "Please enter your location.";
+
+    if (!email || email === "")
+      newErrors.email = "Please enter your email address.";
+    else if (!regEmail.test(email)) newErrors.email = "Invalid email format.";
+
+    if (!password || password === "")
+      newErrors.password = "Please enter your password.";
+
     if (!contactPerson || contactPerson === "")
-      newErrors.contactPerson = "cannot be blank!";
-    if (!bankAcc || bankAcc === "") newErrors.bankAcc = "cannot be blank!";
+      newErrors.contactPerson = "Please enter contact person name.";
+
+    if (!bankAcc || bankAcc === "")
+      newErrors.bankAcc = "Please enter bank account number.";
     return newErrors;
   };
 
