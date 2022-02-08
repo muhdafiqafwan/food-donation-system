@@ -76,6 +76,8 @@ const OrganizationRegisterPage = () => {
 
     if (!phone || phone === "")
       newErrors.phone = "Please enter your phone number.";
+    else if (!regPhone.test(phone))
+      newErrors.phone = "Invalid phone number format. Eg: 01XXXXXXXX";
 
     if (!longLat || longLat === "")
       newErrors.longLat = "Please enter your location.";
@@ -86,6 +88,9 @@ const OrganizationRegisterPage = () => {
 
     if (!password || password === "")
       newErrors.password = "Please enter your password.";
+    else if (!regPass.test(password))
+      newErrors.password =
+        "Must have at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.";
 
     if (!contactPerson || contactPerson === "")
       newErrors.contactPerson = "Please enter contact person name.";
@@ -231,7 +236,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.name}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your organization name.
+                {errors.name}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -247,7 +252,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.description}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your organization description.
+                {errors.description}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -255,14 +260,14 @@ const OrganizationRegisterPage = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="Phone number"
+                placeholder="Phone number. Eg: 01XXXXXXXX / 03XXXXXXXX"
                 name="phone"
                 value={values.phone}
                 onChange={onChange}
                 isInvalid={!!errors.phone}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your phone number.
+                {errors.phone}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -281,7 +286,7 @@ const OrganizationRegisterPage = () => {
                     isInvalid={!!errors.longLat}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please enter your location in (longitude,latitude).
+                    {errors.longLat}
                   </Form.Control.Feedback>
                 </Col>
                 <Col xl="auto">
@@ -316,7 +321,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your email address.
+                {errors.email}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -331,7 +336,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.password}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter your password.
+                {errors.password}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -346,7 +351,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.contactPerson}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter contact person name.
+                {errors.contactPerson}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -361,7 +366,7 @@ const OrganizationRegisterPage = () => {
                 isInvalid={!!errors.bankAcc}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter bank account number.
+                {errors.bankAcc}
               </Form.Control.Feedback>
             </Form.Group>
 

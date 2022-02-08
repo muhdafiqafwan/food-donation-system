@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { UPDATE_ORGANIZATION } from "../../GraphQL/Mutations";
 import { GET_ONE_ORGANIZATION } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
+import { regEmail, regPhone, regPass } from "../../util/regex";
 import { useHistory } from "react-router-dom";
 import {
   Row,
@@ -66,15 +67,30 @@ const OrganizationUpdateProfile = ({ match }) => {
       values;
     const newErrors = {};
 
-    if (!name || name === "") newErrors.name = "cannot be blank!";
+    if (!name || name === "")
+      newErrors.name = "Please enter your organization name.";
+
     if (!description || description === "")
-      newErrors.description = "cannot be blank!";
-    if (!email || email === "") newErrors.email = "cannot be blank!";
-    if (!phone || phone === "") newErrors.phone = "cannot be blank!";
+      newErrors.description = "Please enter your organization description.";
+
+    if (!email || email === "")
+      newErrors.email = "Please enter your email address.";
+    else if (!regEmail.test(email)) newErrors.email = "Invalid email format.";
+
+    if (!phone || phone === "")
+      newErrors.phone = "Please enter your phone number.";
+    else if (!regPhone.test(phone))
+      newErrors.phone =
+        "Invalid phone number format. Eg: 01XXXXXXXX / 03XXXXXXXX";
+
     if (!contactPerson || contactPerson === "")
-      newErrors.contactPerson = "cannot be blank!";
-    if (!longLat || longLat === "") newErrors.longLat = "cannot be blank!";
-    if (!bankAcc || bankAcc === "") newErrors.bankAcc = "cannot be blank!";
+      newErrors.contactPerson = "Please enter contact person name.";
+
+    if (!longLat || longLat === "")
+      newErrors.longLat = "Please enter your location.";
+
+    if (!bankAcc || bankAcc === "")
+      newErrors.bankAcc = "Please enter bank account number.";
     return newErrors;
   };
 
@@ -206,7 +222,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                 isInvalid={!!errors.name}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter organization name
+                {errors.name}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -223,7 +239,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                 isInvalid={!!errors.description}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter description for the organization
+                {errors.description}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -239,7 +255,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                 isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter email
+                {errors.email}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -248,14 +264,14 @@ const OrganizationUpdateProfile = ({ match }) => {
               <Form.Control
                 required
                 type="text"
-                placeholder="Phone number"
+                placeholder="Phone number. Eg: 01XXXXXXXX / 03XXXXXXXX"
                 name="phone"
                 value={values.phone}
                 onChange={onChange}
                 isInvalid={!!errors.phone}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter phone number
+                {errors.phone}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -271,7 +287,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                 isInvalid={!!errors.contactPerson}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter contact person name
+                {errors.contactPerson}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -287,7 +303,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                 isInvalid={!!errors.bankAcc}
               />
               <Form.Control.Feedback type="invalid">
-                Please enter organization's bank account number
+                {errors.bankAcc}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -307,7 +323,7 @@ const OrganizationUpdateProfile = ({ match }) => {
                     isInvalid={!!errors.longLat}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please enter your location in (longitude,latitude).
+                    {errors.longLat}
                   </Form.Control.Feedback>
                 </Col>
                 <Col xl="auto">

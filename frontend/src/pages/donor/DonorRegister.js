@@ -65,7 +65,7 @@ const DonorRegisterPage = () => {
     if (!phone || phone === "")
       newErrors.phone = "Please enter your phone number.";
     else if (!regPhone.test(phone))
-      newErrors.phone = "Invalid phone number format. Eg: 01X-XXXXXXX";
+      newErrors.phone = "Invalid phone number format. Eg: 01XXXXXXXX";
 
     if (!email || email === "")
       newErrors.email = "Please enter your email address.";
@@ -235,7 +235,7 @@ const DonorRegisterPage = () => {
               <Form.Control
                 required
                 type="text"
-                placeholder="Phone number. Eg: 01X-XXXXXXX"
+                placeholder="Phone number. Eg: 01XXXXXXXX"
                 name="phone"
                 value={values.phone}
                 onChange={onChange}
