@@ -110,12 +110,12 @@ module.exports = {
         { $pull: { createdPrograms: args.programId } }
       );
       const fetchedItem = await Item.findOne({ program: args.programId });
-      await Donor.updateOne(
-        { itemDonated: fetchedItem },
-        { $pull: { itemDonated: fetchedItem } }
-      );
       if (fetchedItem) {
-        await Item.deleteMany({ programId: args.programId });
+        await Donor.updateOne(
+          { itemDonated: fetchedItem._id },
+          { $pull: { itemDonated: fetchedItem._id } }
+        );
+        await Item.deleteMany({ program: args.programId });
       }
       return transformProgram(fetchedProgram);
     } catch (err) {
