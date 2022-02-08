@@ -9,6 +9,8 @@ Web-based Food Donation System is a system that connects donor and NGO to facili
 - Express.js
 - React.js
 - Node.js
+- JWT Authentication
 - react-bootstrap
+- Mapbox GL JS
 - MongoDB
 - GraphQL
