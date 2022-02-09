@@ -10,6 +10,7 @@ import {
   ListGroup,
   Table,
 } from "react-bootstrap";
+import { ArchiveFill } from "react-bootstrap-icons";
 
 const AdminDonorPage = () => {
   const { loading, error, data } = useQuery(GET_DONORS);
@@ -55,7 +56,7 @@ const AdminDonorPage = () => {
                 </Card.Title>
                 <Card.Body>
                   <Row>
-                    <Table striped bordered hover>
+                    <Table striped bordered responsive>
                       <thead>
                         <tr>
                           <th>#</th>
@@ -64,18 +65,37 @@ const AdminDonorPage = () => {
                           <th>Phone Number</th>
                         </tr>
                       </thead>
-                      {data.donors.map((donor, index) => (
+                      {data.donors.length > 0 ? (
+                        data.donors.map((donor, index) => (
+                          <tbody>
+                            <tr>
+                              <td>{index + 1}</td>
+                              <td>
+                                {donor.firstName} {donor.lastName}
+                              </td>
+                              <td>{donor.email}</td>
+                              <td>{donor.phone}</td>
+                            </tr>
+                          </tbody>
+                        ))
+                      ) : (
                         <tbody>
                           <tr>
-                            <td>{index + 1}</td>
-                            <td>
-                              {donor.firstName} {donor.lastName}
+                            <td colSpan={8}>
+                              <div className="text-center">
+                                <ArchiveFill
+                                  style={{ fontSize: "9rem", color: "#d9d9d9" }}
+                                ></ArchiveFill>
+                                <br></br>
+                                <h4>
+                                  <b>It's empty here</b>
+                                </h4>
+                                <p>No donors yet.</p>
+                              </div>
                             </td>
-                            <td>{donor.email}</td>
-                            <td>{donor.phone}</td>
                           </tr>
                         </tbody>
-                      ))}
+                      )}
                     </Table>
                   </Row>
                 </Card.Body>

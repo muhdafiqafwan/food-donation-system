@@ -11,6 +11,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+import { ArchiveFill } from "react-bootstrap-icons";
 import "../Form.css";
 
 const Dashboard = () => {
@@ -32,27 +33,6 @@ const Dashboard = () => {
         }}
         animation="border"
       />
-    );
-  if (error)
-    return (
-      <Container>
-        <Row className="justify-content-sm-center mt-4 mb-5">
-          <Col lg="5">
-            <Alert key={error} variant="warning">
-              No program listing available
-            </Alert>
-            <Link to="/program" style={{ textDecoration: "none" }}>
-              <Button
-                className="btn-block mt-2"
-                variant="success"
-                type="submit"
-              >
-                Add new program
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-      </Container>
     );
 
   return (
@@ -78,9 +58,16 @@ const Dashboard = () => {
                 </Col>
               ))
             ) : (
-              <Col lg="10">
-                <Alert key={error} variant="warning">
-                  No program listing available
+              <Col lg="12">
+                <Alert key={error} variant="warning" className="text-center">
+                  <ArchiveFill
+                    style={{ fontSize: "9rem", color: "#837448" }}
+                  ></ArchiveFill>
+                  <br></br>
+                  <h4>
+                    <b>It's empty here</b>
+                  </h4>
+                  <p>No programs yet.</p>
                 </Alert>
               </Col>
             )}

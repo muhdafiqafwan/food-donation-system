@@ -58,6 +58,7 @@ export const GET_MEDONOR_ITEMS = gql`
         program {
           _id
           title
+          picName
           organization {
             _id
             name

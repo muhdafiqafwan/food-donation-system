@@ -15,6 +15,7 @@ import {
   CurrencyDollar,
   PersonCircle,
   TelephoneFill,
+  EnvelopeFill,
 } from "react-bootstrap-icons";
 
 const OrganizationDetails = ({ match }) => {
@@ -61,6 +62,10 @@ const OrganizationDetails = ({ match }) => {
                   <PersonCircle style={{ fontSize: "15px" }} />
                   {"  "}
                   {data.oneOrganization.contactPerson}
+                </Badge>{" "}
+                <Badge variant="dark">
+                  <EnvelopeFill style={{ fontSize: "15px" }}></EnvelopeFill>{" "}
+                  {data.oneOrganization.email}
                 </Badge>{" "}
                 <Badge variant="dark">
                   <TelephoneFill style={{ fontSize: "15px" }} />{" "}

@@ -12,7 +12,12 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import { ClockFill, CheckSquareFill, XSquareFill } from "react-bootstrap-icons";
+import {
+  ClockFill,
+  CheckSquareFill,
+  XSquareFill,
+  ArchiveFill,
+} from "react-bootstrap-icons";
 import ReactTooltip from "react-tooltip";
 
 const AdminNGOPage = () => {
@@ -97,7 +102,7 @@ const AdminNGOPage = () => {
                 </Card.Title>
                 <Card.Body>
                   <Row>
-                    <Table striped bordered hover>
+                    <Table striped bordered responsive>
                       <thead>
                         <tr>
                           <th>#</th>
@@ -110,66 +115,85 @@ const AdminNGOPage = () => {
                           <th>Action</th>
                         </tr>
                       </thead>
-                      {data.organizations.map((organization, index) => (
+                      {data.organizations.length > 0 ? (
+                        data.organizations.map((organization, index) => (
+                          <tbody>
+                            <tr>
+                              <td>{index + 1}</td>
+                              <td>{organization.name}</td>
+                              <td>{organization.email}</td>
+                              <td>{organization.bankAcc}</td>
+                              <td>{organization.contactPerson}</td>
+                              <td>{organization.phone}</td>
+                              <td className="text-center">
+                                <ReactTooltip />
+                                <p
+                                  data-html="true"
+                                  data-tip={`${organization.verified}`}
+                                  data-place="bottom"
+                                  data-effect="solid"
+                                >
+                                  <ClockFill
+                                    style={{
+                                      color: getColor(organization.verified),
+                                      display: getDisplayPending(
+                                        organization.verified
+                                      ),
+                                    }}
+                                  ></ClockFill>
+                                  <XSquareFill
+                                    style={{
+                                      color: getColor(organization.verified),
+                                      display: getDisplayRejected(
+                                        organization.verified
+                                      ),
+                                    }}
+                                  ></XSquareFill>
+                                  <CheckSquareFill
+                                    style={{
+                                      color: getColor(organization.verified),
+                                      display: getDisplayApproved(
+                                        organization.verified
+                                      ),
+                                    }}
+                                  ></CheckSquareFill>
+                                </p>
+                              </td>
+                              <td>
+                                <Link
+                                  to={`/ngoDetails/${organization._id}`}
+                                  style={{ textDecoration: "none" }}
+                                >
+                                  <Button
+                                    className="float-right"
+                                    variant="primary"
+                                    type="submit"
+                                  >
+                                    View
+                                  </Button>
+                                </Link>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ))
+                      ) : (
                         <tbody>
                           <tr>
-                            <td>{index + 1}</td>
-                            <td>{organization.name}</td>
-                            <td>{organization.email}</td>
-                            <td>{organization.bankAcc}</td>
-                            <td>{organization.contactPerson}</td>
-                            <td>{organization.phone}</td>
-                            <td className="text-center">
-                              <ReactTooltip />
-                              <p
-                                data-html="true"
-                                data-tip={`${organization.verified}`}
-                                data-place="bottom"
-                                data-effect="solid"
-                              >
-                                <ClockFill
-                                  style={{
-                                    color: getColor(organization.verified),
-                                    display: getDisplayPending(
-                                      organization.verified
-                                    ),
-                                  }}
-                                ></ClockFill>
-                                <XSquareFill
-                                  style={{
-                                    color: getColor(organization.verified),
-                                    display: getDisplayRejected(
-                                      organization.verified
-                                    ),
-                                  }}
-                                ></XSquareFill>
-                                <CheckSquareFill
-                                  style={{
-                                    color: getColor(organization.verified),
-                                    display: getDisplayApproved(
-                                      organization.verified
-                                    ),
-                                  }}
-                                ></CheckSquareFill>
-                              </p>
-                            </td>
-                            <td>
-                              <Link
-                                to={`/ngoDetails/${organization._id}`}
-                                style={{ textDecoration: "none" }}
-                              >
-                                <Button
-                                  className="float-right"
-                                  variant="primary"
-                                  type="submit"
-                                >
-                                  View
-                                </Button>
-                              </Link>
+                            <td colSpan={8}>
+                              <div className="text-center">
+                                <ArchiveFill
+                                  style={{ fontSize: "9rem", color: "#d9d9d9" }}
+                                ></ArchiveFill>
+                                <br></br>
+                                <h4>
+                                  <b>It's empty here</b>
+                                </h4>
+                                <p>No organizations yet.</p>
+                              </div>
                             </td>
                           </tr>
                         </tbody>
-                      ))}
+                      )}
                     </Table>
                   </Row>
                 </Card.Body>

@@ -147,6 +147,9 @@ const DonateHistory = () => {
                               {items.program.organization.name}
                             </Badge>{" "}
                             <Badge variant="dark">
+                              {items.program.picName}
+                            </Badge>{" "}
+                            <Badge variant="dark">
                               <TelephoneFill style={{ fontSize: "10px" }} />{" "}
                               {items.program.organization.phone}
                             </Badge>
