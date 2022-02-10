@@ -227,15 +227,15 @@ module.exports = {
       const fetchedProgram = await Program.findOne({
         organization: args.organizationId,
       });
-      const fetchedItem = await Item.findOne({ program: fetchedProgram._id });
-      await Donor.updateOne(
-        { itemDonated: fetchedItem._id },
-        { $pull: { itemDonated: fetchedItem._id } }
-      );
-      if (fetchedItem) {
-        await Item.deleteMany({ program: fetchedProgram._id });
-      }
       if (fetchedProgram) {
+        const fetchedItem = await Item.findOne({ program: fetchedProgram._id });
+        if (fetchedItem) {
+          await Donor.updateOne(
+            { itemDonated: fetchedItem._id },
+            { $pull: { itemDonated: fetchedItem._id } }
+          );
+          await Item.deleteMany({ program: fetchedProgram._id });
+        }
         await Program.deleteMany({ organization: args.organizationId });
       }
       await Organization.deleteOne({ _id: args.organizationId });
